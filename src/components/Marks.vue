@@ -46,12 +46,23 @@ export default {
       };
    },
    computed: {
+      /**
+       * Вычисляемое наименование листа
+       */
       Name() {
          return this.names[this.tags.length];
       },
+
+      /**
+       * Вычисляемый отфильтрованный лист
+       */
       List() {
          return this.filterList();
       },
+
+      /**
+       * Вычисляемый флаг показывания листа
+       */
       ShowList: {
          get() {
             if (this.isMaxLength()) {
@@ -66,19 +77,36 @@ export default {
       }
    },
    methods: {
+      /**
+       * Удаление тэга
+       *
+       * @param {String} tag
+       */
       removeTag(tag) {
          const index = this.tags.findIndex(item => item === tag);
          this.tags.splice(index, this.tags.length - index);
+
          this.$emit('update:tags', this.tags);
       },
+
+      /**
+       * Добавление тэга
+       *
+       * @param {String} tag
+       */
       addTag(tag) {
          this.searchString = '';
+
          this.tags.push(tag);
 
          this.$refs.InputRef.focus();
 
          this.$emit('update:tags', this.tags);
       },
+
+      /**
+       * Проверка на Mercedes
+       */
       checkMercedes() {
          if (!this.tags.length) {
             return false;
@@ -90,6 +118,12 @@ export default {
 
          return this.tags[0].toLowerCase() === 'Mercedes-Benz'.toLowerCase();
       },
+
+      /**
+       * Метод-флаг максимальной длины тэгов для скрытия листа
+       *
+       * @return {boolean}
+       */
       isMaxLength() {
          let maxCount = 4;
 
@@ -99,6 +133,12 @@ export default {
 
          return this.tags.length >= maxCount;
       },
+
+      /**
+       * Получить текущий активный лист в зависимости от количества тэгов
+       *
+       * @return {null|string[]|number[]}
+       */
       getCurrentList() {
          switch (this.tags.length) {
             case 0:
@@ -114,6 +154,12 @@ export default {
                return null;
          }
       },
+
+      /**
+       * Метод-фильтр в зависимости от значения введенного в поле поиска
+       *
+       * @return {any[]}
+       */
       filterList() {
          const list = this.getCurrentList();
 
@@ -134,6 +180,13 @@ export default {
 
          return list;
       },
+
+      /**
+       * Регистартор глобального эвента для закрытия листа по клику
+       * в любое место кроме компонента
+       *
+       * @param e
+       */
       registerGlobalEvent(e) {
          let contains = e.path.filter($el => {
             if ($el.classList) {

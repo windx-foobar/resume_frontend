@@ -3,11 +3,7 @@
     <pre>
       {{ PrettyPrint }}
     </pre>
-    <button @click="showComponent = !showComponent">Test</button>
-    <Marks
-      @update:tags="currentValue = $event"
-      v-if="showComponent"
-    />
+    <Marks @update:tags="currentValue = $event" />
   </div>
 </template>
 
@@ -18,7 +14,6 @@ export default {
    components: { Marks },
    data: () => ({
       currentValue: [],
-      showComponent: true
    }),
    computed: {
       PrettyPrint() {

@@ -80,7 +80,7 @@ export default {
       /**
        * Удаление тэга
        *
-       * @param {String} tag
+       * @param {String|Number} tag
        */
       removeTag(tag) {
          const index = this.tags.findIndex(item => item === tag);
@@ -92,7 +92,7 @@ export default {
       /**
        * Добавление тэга
        *
-       * @param {String} tag
+       * @param {String|Number} tag
        */
       addTag(tag) {
          this.searchString = '';
@@ -185,10 +185,12 @@ export default {
        * Регистартор глобального эвента для закрытия листа по клику
        * в любое место кроме компонента
        *
-       * @param e
+       * @param {PointerEvent} e
        */
       registerGlobalEvent(e) {
-         let contains = e.path.filter($el => {
+         let path = e.path ?? (e.composedPath && e.composedPath());
+
+         let contains = path.filter($el => {
             if ($el.classList) {
                return $el.classList.contains('marks');
             }
